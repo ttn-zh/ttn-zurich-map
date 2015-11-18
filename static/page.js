@@ -16,25 +16,25 @@ $(document).ready(function() {
         var map_bounds = new google.maps.LatLngBounds();
 
         $.each(geojson.features, function(k, f){
-        var marker_position = new google.maps.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
-        var marker = new google.maps.Marker({
-            position: marker_position,
-            map: map,
-            title: f.properties.owner
-        });
-        map_bounds.extend(marker_position);
+            var marker_position = new google.maps.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
+            var marker = new google.maps.Marker({
+                position: marker_position,
+                map: map,
+                title: f.properties.owner
+            });
+            map_bounds.extend(marker_position);
 
-        var circle = new google.maps.Circle({
-            radius: f.properties.radius,
-            map: map,
-            center: marker_position,
-            strokeWeight: 0.5,
-            strokeColor: '#0020bc',
-            fillColor: '#0071bc',
-            fillOpacity: 0.1
+            var circle = new google.maps.Circle({
+                radius: f.properties.radius,
+                map: map,
+                center: marker_position,
+                strokeWeight: 0.5,
+                strokeColor: '#0020bc',
+                fillColor: '#0071bc',
+                fillOpacity: 0.1
+            });
         });
+
+        map.fitBounds(map_bounds);
     });
-
-    map.fitBounds(map_bounds);
-  });
 });
