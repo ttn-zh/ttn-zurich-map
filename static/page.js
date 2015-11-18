@@ -9,10 +9,10 @@ $(document).ready(function() {
         zoom: 13
     });
 
-    var geojson_url = 'https://crossorigin.me/https://gist.githubusercontent.com/vasile/a96eeeb3a8679ae8b4bd/raw/a7bc511438d584422dd28a741413021cbdfc58ee/lorawan-gateways.geojson';
+    var geojson_gist_url = 'https://api.github.com/gists/a96eeeb3a8679ae8b4bd?rid=' + Math.random().toString(36).substring(7);
+    $.getJSON(geojson_gist_url, function(gist_json){
+        var geojson = JSON.parse(gist_json.files['lorawan-gateways.geojson'].content);
 
-    var random_id = Math.random().toString(36).substring(7);
-    $.getJSON(geojson_url + '?rid=' + random_id, function(geojson){
         var map_bounds = new google.maps.LatLngBounds();
 
         $.each(geojson.features, function(k, f){
