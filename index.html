@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>TTN Zürich Map</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        
+        <!-- Boostrap -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+        <link href="static/page.css?v=[REVISION]" rel="stylesheet" />
+    </head>
+
+    <body role="document">
+        <div id="github_badge">
+            <a href="https://github.com/vasile/ttn-map" target="_blank"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+        </div>
+        
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="http://thethingsnetwork.org/c/zurich">TTN Zürich Map</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="https://www.kickstarter.com/projects/419277966/the-things-network" target="_blank">Support</a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/thethingsntwrk" target="_blank">Twitter</a>
+                        </li>
+                        <li>
+                            <a href="http://thethingsnetwork.org/c/zurich" target="_blank">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <h2 class="text-center">TTN Zürich Map</h2>
+            
+            <div id="map_canvas_wrapper" class="row">
+                <div id="map_canvas"></div>
+            </div>
+
+            <footer>
+                Application designed and programmed by a bunch of nerds in Zürich</a>
+            </footer>
+        </div>
+        
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        
+        <script src="https://maps.googleapis.com/maps/api/js"></script>
+        
+        <script src="static/page.js?v=[REVISION]"></script>
+        
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-70363413-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

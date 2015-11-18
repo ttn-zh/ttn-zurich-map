@@ -1,0 +1,45 @@
+body {
+    padding-top: 50px;
+    padding-bottom: 40px;
+}
+
+.navbar {
+    height: 50px;
+}
+
+footer {
+  margin-top: 20px;
+}
+
+#map_canvas_wrapper {
+    margin: 2px;
+}
+
+#map_canvas {
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid #0087cc;
+    height: 600px;
+}
+
+#github_badge {
+    z-index: 2000;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+/* START Small screens */
+body.mobile {
+    margin-top: 0px;
+    padding-top: 5px;
+}
+
+body.mobile #github_badge, body.mobile .navbar, body.mobile #social, body.mobile h2, body.mobile .info {
+    display: none;
+}
+
+body.mobile #map_canvas {
+    height: 300px;
+}
+/* END */
