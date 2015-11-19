@@ -9,7 +9,9 @@ $(document).ready(function() {
         zoom: 13
     });
 
-    var geojson_gist_url = 'https://api.github.com/gists/a96eeeb3a8679ae8b4bd?rid=' + Math.random().toString(36).substring(7);
+    var geojson_gist_url = 'https://api.github.com/gists/a96eeeb3a8679ae8b4bd';
+    geojson_gist_url += '?rid=' + Math.random().toString(36).substring(7);
+    
     $.getJSON(geojson_gist_url, function(gist_json){
         var geojson = JSON.parse(gist_json.files['lorawan-gateways.geojson'].content);
 
