@@ -16,6 +16,8 @@ $(document).ready(function() {
         var geojson = JSON.parse(gist_json.data);
 
         var map_bounds = new google.maps.LatLngBounds();
+        var infowindow = new google.maps.InfoWindow();
+
 
         $.each(geojson.features, function(k, f){
             var marker_position = new google.maps.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
@@ -24,6 +26,17 @@ $(document).ready(function() {
                 map: map,
                 title: f.properties.owner
             });
+            marker.addListener('click', function() {
+                var windowLines = [];
+                windowLines.push('<b>Name: </b> ' + f.properties.name);
+                windowLines.push('<b>Gateway: </b> ' + f.properties.gateway);
+                windowLines.push('<b>Contact: </b> <a href="' + f.properties.contact + '" target="_blank">' + f.properties.owner + '</a>');
+                windowLines.push('<b>Status: </b> ' + f.properties.status);
+                
+                infowindow.set('content', windowLines.join('<br/>'));
+                infowindow.open(marker.get('map'), marker);
+            });
+
             map_bounds.extend(marker_position);
 
             var circle = new google.maps.Circle({
