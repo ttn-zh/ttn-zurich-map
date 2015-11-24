@@ -9,66 +9,86 @@ $(document).ready(function() {
         zoom: 13
     });
 
-    var geojson_gist_url = 'http://api.jsoneditoronline.org/v1/docs/b3c1d59588e11bdf6d7d648d07a0e69c';
-    geojson_gist_url += '?rid=' + Math.random().toString(36).substring(7);
-    
-    $.getJSON(geojson_gist_url, function(gist_json){
-        var geojson = JSON.parse(gist_json.data);
+    var gateway_status_url = 'http://crossorigin.me/http://www.ttnstatus.org/gateways';
+    $.when($.getJSON(gateway_status_url))
+        .then(function (gateways) {
+            var status = {};
 
-        var map_bounds = new google.maps.LatLngBounds();
-        var infowindow = new google.maps.InfoWindow();
-
-        var circle_styles = {
-            'active': {
-                strokeColor: '#0020bc',
-                fillColor: '#0071bc'
-            },
-            'down': {
-                strokeColor: '#660000',
-                fillColor: '#ff0000'
-            },
-            'planned': {
-                strokeColor: '#663300',
-                fillColor: '#ff9900'
-            }
-        };
-
-        $.each(geojson.features, function(k, f){
-            var marker_position = new google.maps.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
-            var marker = new google.maps.Marker({
-                position: marker_position,
-                map: map,
-                title: f.properties.owner
-            });
-            marker.addListener('click', function() {
-                var windowLines = [];
-                windowLines.push('<b>Name: </b> ' + f.properties.name);
-                windowLines.push('<b>Gateway: </b> ' + f.properties.gateway);
-                windowLines.push('<b>Contact: </b> <a href="' + f.properties.contact + '" target="_blank">' + f.properties.owner + '</a>');
-                windowLines.push('<b>Status: </b> ' + f.properties.status);
-                
-                infowindow.set('content', windowLines.join('<br/>'));
-                infowindow.open(marker.get('map'), marker);
+            $.each(gateways, function(i, gateway) {
+                status[gateway.eui] = gateway.status;
             });
 
-            map_bounds.extend(marker_position);
+            return status;
+        })
+        .then(function(gateway_status) {
+            var geojson_gist_url = 'http://api.jsoneditoronline.org/v1/docs/b3c1d59588e11bdf6d7d648d07a0e69c';
+            geojson_gist_url += '?rid=' + Math.random().toString(36).substring(7);
 
-            var circleProperties = {
-                radius: f.properties.radius,
-                map: map,
-                center: marker_position,
-                strokeWeight: 1,
-                fillOpacity: 0.2                
-            };
-            var circle_style = circle_styles[f.properties.status];
-            if (typeof(circle_style) !== 'undefined') {
-                for (var key in circle_style) {
-                    circleProperties[key] = circle_style[key];
-                }
-            }
-            var circle = new google.maps.Circle(circleProperties);
+            $.getJSON(geojson_gist_url, function(gist_json) {
+                var geojson = JSON.parse(gist_json.data);
+
+                var map_bounds = new google.maps.LatLngBounds();
+                var infowindow = new google.maps.InfoWindow();
+
+                var circle_styles = {
+                    'up': {
+                        strokeColor: '#0020bc',
+                        fillColor: '#0071bc'
+                    },
+                    'down': {
+                        strokeColor: '#660000',
+                        fillColor: '#ff0000'
+                    },
+                    'planned': {
+                        strokeColor: '#663300',
+                        fillColor: '#ff9900'
+                    }
+                };
+
+                $.each(geojson.features, function(k, f) {
+                    if (f.properties.gateway_eui in gateway_status) {
+                        f.properties.status = gateway_status[f.properties.gateway_eui];
+                    }
+
+                    var marker_position = new google.maps.LatLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
+                    var marker = new google.maps.Marker({
+                        position: marker_position,
+                        map: map,
+                        title: f.properties.owner
+                    });
+                    marker.addListener('click', function() {
+                        var windowLines = [];
+                        windowLines.push('<b>Name: </b> ' + f.properties.name);
+                        windowLines.push('<b>Gateway: </b> ' + f.properties.gateway);
+                        windowLines.push('<b>Contact: </b> <a href="' + f.properties.contact + '" target="_blank">' + f.properties.owner + '</a>');
+                        windowLines.push('<b>Status: </b> ' + f.properties.status);
+                        
+                        infowindow.set('content', windowLines.join('<br/>'));
+                        infowindow.open(marker.get('map'), marker);
+                    });
+
+                    map_bounds.extend(marker_position);
+
+                    var circleProperties = {
+                        radius: f.properties.radius,
+                        map: map,
+                        center: marker_position,
+                        strokeWeight: 1,
+                        fillOpacity: 0.2                
+                    };
+                    var circle_style = circle_styles[f.properties.status];
+                    if (typeof(circle_style) !== 'undefined') {
+                        for (var key in circle_style) {
+                            circleProperties[key] = circle_style[key];
+                        }
+                    }
+                    var circle = new google.maps.Circle(circleProperties);
+                });
+
+                map.fitBounds(map_bounds);
+            });
+
         });
 
-        map.fitBounds(map_bounds);
-    });
+    
 });
