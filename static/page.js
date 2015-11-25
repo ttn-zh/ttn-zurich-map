@@ -31,21 +31,6 @@ $(document).ready(function() {
 
                 var map_bounds = new google.maps.LatLngBounds();
 
-                var circle_styles = {
-                    'up': {
-                        strokeColor: '#0020bc',
-                        fillColor: '#0071bc'
-                    },
-                    'down': {
-                        strokeColor: '#660000',
-                        fillColor: '#ff0000'
-                    },
-                    'planned': {
-                        strokeColor: '#663300',
-                        fillColor: '#ff9900'
-                    }
-                };
-
                 $.each(geojson.features, function(k, f) {
                     if (f.properties.gateway_eui in gateway_status) {
                         f.properties.status = gateway_status[f.properties.gateway_eui];
@@ -70,20 +55,7 @@ $(document).ready(function() {
 
                     map_bounds.extend(marker_position);
 
-                    var circleProperties = {
-                        radius: f.properties.radius,
-                        map: map,
-                        center: marker_position,
-                        strokeWeight: 1,
-                        fillOpacity: 0.2                
-                    };
-                    var circle_style = circle_styles[f.properties.status];
-                    if (typeof(circle_style) !== 'undefined') {
-                        for (var key in circle_style) {
-                            circleProperties[key] = circle_style[key];
-                        }
-                    }
-                    var circle = new google.maps.Circle(circleProperties);
+                    displayCircle(marker_position, f.properties.radius, f.properties.status);
                 });
 
                 map.fitBounds(map_bounds);
@@ -91,5 +63,35 @@ $(document).ready(function() {
 
         });
 
-    
+    function displayCircle(position, radius, style) {
+        var circle_styles = {
+            'up': {
+                strokeColor: '#0020bc',
+                fillColor: '#0071bc'
+            },
+            'down': {
+                strokeColor: '#660000',
+                fillColor: '#ff0000'
+            },
+            'planned': {
+                strokeColor: '#663300',
+                fillColor: '#ff9900'
+            }
+        };
+
+        var circleProperties = {
+            radius: radius,
+            map: map,
+            center: position,
+            strokeWeight: 1,
+            fillOpacity: 0.2                
+        };
+        var circle_style = circle_styles[style];
+        if (typeof(circle_style) !== 'undefined') {
+            for (var key in circle_style) {
+                circleProperties[key] = circle_style[key];
+            }
+        }
+        var circle = new google.maps.Circle(circleProperties);
+    }
 });
