@@ -9,6 +9,8 @@ $(document).ready(function() {
         zoom: 13
     });
 
+    var infowindow = new google.maps.InfoWindow();
+
     var gateway_status_url = 'http://crossorigin.me/http://www.ttnstatus.org/gateways';
     $.when($.getJSON(gateway_status_url))
         .then(function (gateways) {
@@ -28,7 +30,6 @@ $(document).ready(function() {
                 var geojson = JSON.parse(gist_json.data);
 
                 var map_bounds = new google.maps.LatLngBounds();
-                var infowindow = new google.maps.InfoWindow();
 
                 var circle_styles = {
                     'up': {
