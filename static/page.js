@@ -94,4 +94,50 @@ $(document).ready(function() {
         }
         var circle = new google.maps.Circle(circleProperties);
     }
+
+    // TODO - TTN, please gimme API
+    var ttn_global_map_url = 'http://crossorigin.me/http://thethingsnetwork.org/map';
+    $.ajax({
+        url: ttn_global_map_url,
+    }).done(function(data) {
+        var dataRegexp = /var\sgatewaydump = (\[.+?\]);/;
+        var dataMatches = dataRegexp.exec(data);
+        if (dataMatches) {
+            var ttnRows = JSON.parse(dataMatches[1]);
+            var map_style_ttn = {
+                'AC': 'up',
+                'PL': 'planned',
+                'MA': 'down'
+            };
+            var pin_style_ttn = {
+                'AC': 'green',
+                'PL': 'blue',
+                'MA': 'red'
+            };
+
+            $.each(ttnRows, function(k, gatewayData){
+                var marker_position = new google.maps.LatLng(gatewayData.lat, gatewayData.lon);
+                var marker = new google.maps.Marker({
+                    position: marker_position,
+                    map: map,
+                    title: gatewayData.title,
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/' + pin_style_ttn[gatewayData.status] + '-dot.png'
+                });
+                displayCircle(marker_position, gatewayData.rng, map_style_ttn[gatewayData.status]);
+
+                marker.addListener('click', function() {
+                    console.log(gatewayData);
+                    var windowLines = [];
+                    windowLines.push('<b>Name: </b> ' + gatewayData.title);
+                    windowLines.push('<b>Created: </b> ' + gatewayData.created);
+                    windowLines.push('<b>Updated: </b> ' + gatewayData.updated);
+                    windowLines.push('<b>Status: </b> ' + gatewayData.status);
+                    windowLines.push('<b>Kickstarter: </b> ' + (gatewayData.kickstarter ? 'Yes' : 'No'));
+                    
+                    infowindow.set('content', windowLines.join('<br/>'));
+                    infowindow.open(marker.get('map'), marker);
+                });
+            });
+        }
+    });
 });
