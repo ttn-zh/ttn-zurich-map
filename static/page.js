@@ -125,6 +125,10 @@ $(document).ready(function() {
             }
         };
 
+        if (style === 'planned') {
+            return;
+        }
+
         var circleProperties = {
             radius: radius,
             map: map,
