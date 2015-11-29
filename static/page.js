@@ -49,6 +49,15 @@ $(document).ready(function() {
        }
     ];
 
+    var map_temp_circle = new google.maps.Circle({});
+    function remove_temp_circle() {
+        if (map_temp_circle.getMap() === null) {
+            return;
+        }
+
+        map_temp_circle.setMap(null);
+    }
+
     var map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: new google.maps.LatLng(47.39, 8.55),
         zoom: 13,
@@ -88,15 +97,23 @@ $(document).ready(function() {
                         map: map,
                         title: f.properties.owner
                     });
+                    var status = f.properties.status;
                     marker.addListener('click', function() {
+                        remove_temp_circle();
+
                         var windowLines = [];
                         windowLines.push('<b>Name: </b> ' + f.properties.name);
                         windowLines.push('<b>Gateway: </b> ' + f.properties.gateway);
                         windowLines.push('<b>Contact: </b> <a href="' + f.properties.contact + '" target="_blank">' + f.properties.owner + '</a>');
-                        windowLines.push('<b>Status: </b> ' + f.properties.status);
+                        windowLines.push('<b>Status: </b> ' + status);
                         
                         infowindow.set('content', windowLines.join('<br/>'));
                         infowindow.open(marker.get('map'), marker);
+
+                        if (status === 'planned') {
+                            var circleProperties = getCircleProperties(marker_position, f.properties.radius, status);
+                            map_temp_circle.setOptions(circleProperties);
+                        }
                     });
 
                     map_bounds.extend(marker_position);
@@ -109,7 +126,7 @@ $(document).ready(function() {
 
         });
 
-    function displayCircle(position, radius, style) {
+    function getCircleProperties(position, radius, style) {
         var circle_styles = {
             'up': {
                 strokeColor: '#660000',
@@ -125,10 +142,6 @@ $(document).ready(function() {
             }
         };
 
-        if (style === 'planned') {
-            return;
-        }
-
         var circleProperties = {
             radius: radius,
             map: map,
@@ -142,6 +155,14 @@ $(document).ready(function() {
                 circleProperties[key] = circle_style[key];
             }
         }
+
+        return circleProperties;
+    }
+    function displayCircle(position, radius, style) {
+        if (style === 'planned') {
+            return;
+        }
+        var circleProperties = getCircleProperties(position, radius, style);
         var circle = new google.maps.Circle(circleProperties);
     }
 
@@ -173,10 +194,12 @@ $(document).ready(function() {
                     title: gatewayData.title,
                     icon: 'http://maps.google.com/mapfiles/ms/icons/' + pin_style_ttn[gatewayData.status] + '-dot.png'
                 });
-                displayCircle(marker_position, gatewayData.rng, map_style_ttn[gatewayData.status]);
+                var status = map_style_ttn[gatewayData.status];
+                displayCircle(marker_position, gatewayData.rng, status);
 
                 marker.addListener('click', function() {
-                    console.log(gatewayData);
+                    remove_temp_circle();
+
                     var windowLines = [];
                     windowLines.push('<b>Name: </b> ' + gatewayData.title);
                     windowLines.push('<b>Created: </b> ' + gatewayData.created);
@@ -186,6 +209,11 @@ $(document).ready(function() {
                     
                     infowindow.set('content', windowLines.join('<br/>'));
                     infowindow.open(marker.get('map'), marker);
+
+                    if (status === 'planned') {
+                        var circleProperties = getCircleProperties(marker_position, gatewayData.rng, status);
+                        map_temp_circle.setOptions(circleProperties);
+                    }
                 });
             });
         }
