@@ -4,9 +4,55 @@ $(document).ready(function() {
         $('body').addClass('mobile');
     }
 
+    var map_styles = [
+       {
+          "featureType": "poi",
+          "stylers":[
+             {
+                "visibility": "off"
+             }
+          ]
+       },
+       {
+          featureType: 'poi.park',
+          stylers:[
+             {
+                visibility: 'off'
+             }
+          ]
+       },
+       {
+          featureType: 'road.highway',
+          elementType: 'labels',
+          stylers:[
+             {
+                visibility: 'off'
+             }
+          ]
+       },
+       {
+          featureType: 'road',
+          elementType: 'geometry',
+          stylers:[
+             {
+                "lightness": 50
+             }
+          ]
+       },
+       {
+          "elementType": "geometry",
+          "stylers":[
+             {
+                "lightness": 50
+             }
+          ]
+       }
+    ];
+
     var map = new google.maps.Map(document.getElementById('map_canvas'), {
         center: new google.maps.LatLng(47.39, 8.55),
-        zoom: 13
+        zoom: 13,
+        styles: map_styles
     });
 
     var infowindow = new google.maps.InfoWindow();
