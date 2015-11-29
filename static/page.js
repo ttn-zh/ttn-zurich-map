@@ -112,15 +112,15 @@ $(document).ready(function() {
     function displayCircle(position, radius, style) {
         var circle_styles = {
             'up': {
-                strokeColor: '#0020bc',
-                fillColor: '#0071bc'
+                strokeColor: '#660000',
+                fillColor: '#1AFF00'
             },
             'down': {
                 strokeColor: '#660000',
                 fillColor: '#ff0000'
             },
             'planned': {
-                strokeColor: '#663300',
+                strokeColor: '#660000',
                 fillColor: '#ff9900'
             }
         };
