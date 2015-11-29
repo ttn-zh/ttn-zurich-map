@@ -64,6 +64,11 @@ $(document).ready(function() {
         styles: map_styles
     });
 
+    map.addListener('click', function() {
+        infowindow.close();
+        remove_temp_circle();
+    });
+
     var infowindow = new google.maps.InfoWindow();
 
     var gateway_status_url = 'http://crossorigin.me/http://www.ttnstatus.org/gateways';
