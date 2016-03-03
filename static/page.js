@@ -71,7 +71,9 @@ $(document).ready(function() {
 
     var infowindow = new google.maps.InfoWindow();
 
-    var gateway_status_url = 'http://crossorigin.me/http://www.ttnstatus.org/gateways';
+    var crossorigin_api_base = 'http://www.vasile.ch/tmp/cors.php';
+
+    var gateway_status_url = crossorigin_api_base + '?url=http://www.ttnstatus.org/gateways';
     $.when($.getJSON(gateway_status_url))
         .then(function (gateways) {
             var status = {};
@@ -172,7 +174,7 @@ $(document).ready(function() {
     }
 
     // TODO - TTN, please gimme API
-    var ttn_global_map_url = 'http://crossorigin.me/http://thethingsnetwork.org/map';
+    var ttn_global_map_url = crossorigin_api_base + '?url=http://thethingsnetwork.org/map';
     $.ajax({
         url: ttn_global_map_url,
     }).done(function(data) {
