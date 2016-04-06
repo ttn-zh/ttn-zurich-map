@@ -184,11 +184,13 @@ $(document).ready(function() {
             var ttnRows = JSON.parse(dataMatches[1]);
             var map_style_ttn = {
                 'AC': 'up',
+                'IC': 'planned',
                 'PL': 'planned',
                 'MA': 'down'
             };
             var pin_style_ttn = {
                 'AC': 'green',
+                'IC': 'blue',
                 'PL': 'blue',
                 'MA': 'red'
             };
