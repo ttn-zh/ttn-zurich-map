@@ -178,7 +178,7 @@ $(document).ready(function() {
     $.ajax({
         url: ttn_global_map_url,
     }).done(function(data) {
-        var dataRegexp = /var\sgatewaydump = (\[.+?\]);/;
+        var dataRegexp = /window\._data\.gateways = (\[.+?\]);/;
         var dataMatches = dataRegexp.exec(data);
         if (dataMatches) {
             var ttnRows = JSON.parse(dataMatches[1]);
