@@ -209,6 +209,7 @@ $(document).ready(function() {
 
                     var windowLines = [];
                     windowLines.push('<b>Name: </b> ' + gatewayData.title);
+                    windowLines.push('<b>Owner: </b> ' + gatewayData.owner.username);
                     windowLines.push('<b>Created: </b> ' + gatewayData.created);
                     windowLines.push('<b>Updated: </b> ' + gatewayData.updated);
                     windowLines.push('<b>Status: </b> ' + gatewayData.status);
