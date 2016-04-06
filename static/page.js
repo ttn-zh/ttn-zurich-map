@@ -182,16 +182,18 @@ $(document).ready(function() {
         var dataMatches = dataRegexp.exec(data);
         if (dataMatches) {
             var ttnRows = JSON.parse(dataMatches[1]);
+
+            // See http://take.ms/wQwDW
             var map_style_ttn = {
                 'AC': 'up',
-                'IC': 'planned',
                 'PL': 'planned',
+                'IC': 'down',
                 'MA': 'down'
             };
             var pin_style_ttn = {
                 'AC': 'green',
-                'IC': 'blue',
                 'PL': 'blue',
+                'IC': 'red',
                 'MA': 'red'
             };
 
