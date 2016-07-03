@@ -1,8 +1,13 @@
-## Map of the Things Network Zürich
+## Maps of the Things Network Zürich
 
-[Map link](http://ttn-zh.github.io/ttn-zurich-map/)
+There are new maps in town! Check them out:
 
-## What is TTN ?
-http://thethingsnetwork.org/c/zurich
+  - [Official TTN map](https://www.thethingsnetwork.org/map)
+  - [Real-time gateway map](http://ha-23.eradus.eu/croft.html)
+  - [Actual coverage measurements](http://ttnmapper.org/)
 
+## What is TTN?
 
+ - [The Things Network](https://thethingsnetwork.org/)
+ - [Zurich community page](https://thethingsnetwork.org/c/zurich)
+ - [Twitter](https://twitter.org/ttn_zh)
