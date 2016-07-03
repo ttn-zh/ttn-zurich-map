@@ -10,4 +10,4 @@ There are new maps in town! Check them out:
 
  - [The Things Network](https://thethingsnetwork.org/)
  - [Zurich community page](https://thethingsnetwork.org/c/zurich)
- - [Twitter](https://twitter.org/ttn_zh)
+ - [Twitter](https://twitter.com/ttn_zh)
